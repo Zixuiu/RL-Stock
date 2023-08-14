@@ -69,15 +69,15 @@ class StockTradingEnv(gym.Env):
 
         if action_type < 1: 
             # 以余额的amount%购买股票 
-            total_possible = int(self.balance / current_price) 
-            shares_bought = int(total_possible * amount) 
-            prev_cost = self.cost_basis * self.shares_held 
-            additional_cost = shares_bought * current_price 
+            total_possible = int(self.balance / current_price)  # 计算可能购买的最大股票数量
+shares_bought = int(total_possible * amount)  # 根据买入比例计算购买的股票数量
+prev_cost = self.cost_basis * self.shares_held  # 计算之前的平均成本
+additional_cost = shares_bought * current_price  # 计算买入股票的额外花费
 
-            self.balance -= additional_cost 
-            self.cost_basis = ( 
-                prev_cost + additional_cost) / (self.shares_held + shares_bought) 
-            self.shares_held += shares_bought 
+self.balance -= additional_cost  # 更新账户余额，减去买入股票的额外花费
+self.cost_basis = (prev_cost + additional_cost) / (self.shares_held + shares_bought)  # 更新平均成本
+self.shares_held += shares_bought  # 更新持有的股票数量
+
 
         elif action_type < 2: 
             # 卖出持有股票的amount% 
