@@ -95,11 +95,12 @@ self.net_worth = self.balance + self.shares_held * current_price  # 更新账户
 
 这段代码的目的是根据卖出比例`amount`和当前价格`current_price`计算卖出的股票数量，并根据卖出股票的收入更新账户余额、持有的股票数量、总共卖出的股票数量和总销售额。最后，更新账户净值。
 
-        if self.net_worth > self.max_net_worth:
-            self.max_net_worth = self.net_worth
+        if self.net_worth > self.max_net_worth:  # 如果当前的账户净值大于最大净值
+    self.max_net_worth = self.net_worth  # 更新最大净值
 
-        if self.shares_held == 0:
-            self.cost_basis = 0
+if self.shares_held == 0:  # 如果持有的股票数量为0
+    self.cost_basis = 0  # 清零平均成本
+
 
     def step(self, action):
         # 在环境中执行一个时间步
