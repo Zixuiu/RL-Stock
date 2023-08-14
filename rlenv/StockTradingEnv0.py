@@ -4,7 +4,7 @@ import gym  # 导入gym模块，用于创建强化学习环境
 from gym import spaces  # 导入spaces模块，用于定义动作和观察空间
 import pandas as pd  # 导入pandas模块，用于处理数据
 import numpy as np  # 导入numpy模块，用于处理数值计算
-
+# 这段代码定义了一个股票交易环境的类，用于进行强化学习训练
 MAX_ACCOUNT_BALANCE = 2147483647  # 最大账户余额
 MAX_NUM_SHARES = 2147483647  # 最大股票数量
 MAX_SHARE_PRICE = 5000  # 最大股票价格
