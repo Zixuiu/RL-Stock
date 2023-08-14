@@ -52,19 +52,32 @@ def test_a_stock_trade(stock_code):
     plt.ylabel('profit')  # 设置y轴标签
     ax.legend(prop=font)  # 显示图例
     plt.savefig(f'./img/{stock_code}.png')  # 保存图像文件
-def multi_stock_trade():
+# 定义一个名为multi_stock_trade的函数，没有输入参数
+def multi_stock_trade(): 
+    # 定义起始股票代码为600000
     start_code = 600000  # 股票代码起始值
+    # 定义最大股票代码数量为3000
     max_num = 3000  # 股票代码数量
+    # 初始化一个空列表，用于存储多个股票交易的结果
     group_result = []  # 存储多个股票的结果
+    # 遍历股票代码范围，从start_code到start_code+max_num（包括两者）
     for code in range(start_code, start_code + max_num):  # 遍历股票代码范围
+        # 根据股票代码在指定的文件夹中查找训练数据文件，'./stockdata/train'是文件路径
+        # 这里假设每个股票的训练数据文件名与股票代码一致
         stock_file = find_file('./stockdata/train', str(code))  # 根据股票代码查找训练数据文件
+        # 如果找到了对应的训练数据文件
         if stock_file:
-            try:
+            try:  # 使用try-except语句块来处理可能的异常
+                # 进行股票交易并获取每日收益，这里的具体实现没有给出，但可以假定profits是每日收益的结果列表
                 profits = stock_trade(stock_file)  # 进行股票交易并获取每日收益
+                # 将单个股票的交易结果添加到group_result列表中
                 group_result.append(profits)  # 将结果添加到列表中
+            # 如果在执行股票交易时抛出了异常，那么异常会被捕获并打印出来
             except Exception as err:
                 print(err)  # 打印异常信息
+    # 使用pickle模块将group_result列表保存到一个二进制文件中，文件名为'code-{start_code}-{start_code + max_num}.pkl'
     with open(f'code-{start_code}-{start_code + max_num}.pkl', 'wb') as f:  # 保存结果到文件
-        pickle.dump(group_result, f)
+        pickle.dump(group_result, f)  # 使用pickle的dump函数将group_result保存到文件f中
+
 if __name__ == '__main__':
     test_a_stock_trade('sh.600036')  # 测试单个股票交易
