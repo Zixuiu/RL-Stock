@@ -20,15 +20,23 @@ def stock_trade(stock_file):
     model.learn(total_timesteps=int(1e4))  # 模型训练
     df_test = pd.read_csv(stock_file.replace('train', 'test'))  # 读取测试数据文件
     env = DummyVecEnv([lambda: StockTradingEnv(df_test)])
-    obs = env.reset()
-    for i in range(len(df_test) - 1):
-        action, _states = model.predict(obs)
-        obs, rewards, done, info = env.step(action)
-        profit = env.render()
-        day_profits.append(profit)
-        if done:
-            break
-    return day_profits
+  # 初始化环境并获取初始观察（obs）。'env'是一个代表环境的对象，'reset'方法用于重置环境并返回初始观察。
+obs = env.reset() 
+# 遍历测试数据集中的所有样本（除了最后一个）。这里假设测试数据集（df_test）是一个pandas DataFrame。
+for i in range(len(df_test) - 1): 
+    # 使用模型预测在当前观察下的行动。这里假设'model'是一个深度学习模型，用于预测行动。
+    action, _states = model.predict(obs) 
+    # 执行预测的行动并获取新的观察、奖励、完成状态以及信息。'env.step'是一个方法，接受行动作为输入并返回这些值。
+    obs, rewards, done, info = env.step(action) 
+    # 获取当前步骤的利润，并添加到'day_profits'列表中。'env.render'可能是一个方法，用于获取当前步骤的利润。
+    profit = env.render() 
+    day_profits.append(profit) 
+    # 如果步骤结束（done == True），则跳出循环。
+    if done: 
+        break 
+# 返回一天的利润列表。
+return day_profits
+
 def find_file(path, name):
     for root, dirs, files in os.walk(path):  # 遍历指定路径下的文件和文件夹
         for fname in files:
