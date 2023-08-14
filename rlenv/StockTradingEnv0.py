@@ -81,14 +81,19 @@ self.shares_held += shares_bought  # 更新持有的股票数量
 
         elif action_type < 2: 
             # 卖出持有股票的amount% 
-            shares_sold = int(self.shares_held * amount) 
-            self.balance += shares_sold * current_price 
-            self.shares_held -= shares_sold 
-            self.total_shares_sold += shares_sold 
-            self.total_sales_value += shares_sold * current_price 
+            下面是对这段代码的逐行中文注释：
 
-        self.net_worth = self.balance + self.shares_held * current_price
+```python
+shares_sold = int(self.shares_held * amount)  # 根据卖出比例计算要卖出的股票数量
+self.balance += shares_sold * current_price  # 更新账户余额，加上卖出股票的收入
+self.shares_held -= shares_sold  # 更新持有的股票数量，减去卖出的股票数量
+self.total_shares_sold += shares_sold  # 更新总共卖出的股票数量
+self.total_sales_value += shares_sold * current_price  # 更新总销售额
 
+self.net_worth = self.balance + self.shares_held * current_price  # 更新账户净值
+```
+
+这段代码的目的是根据卖出比例`amount`和当前价格`current_price`计算卖出的股票数量，并根据卖出股票的收入更新账户余额、持有的股票数量、总共卖出的股票数量和总销售额。最后，更新账户净值。
 
         if self.net_worth > self.max_net_worth:
             self.max_net_worth = self.net_worth
