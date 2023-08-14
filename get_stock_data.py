@@ -1,7 +1,7 @@
 import baostock as bs  # 导入baostock库，用于获取股票数据
 import pandas as pd  # 导入pandas库，用于数据处理
 import os  # 导入os模块，用于文件操作
-
+# 此py文件用于下载股票数据
 OUTPUT = './stockdata'  # 设置输出目录
 
 def mkdir(directory):
