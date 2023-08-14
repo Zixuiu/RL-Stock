@@ -8,6 +8,10 @@ from rlenv.StockTradingEnv0 import StockTradingEnv  # 导入自定义的StockTra
 import numpy as np  # 导入numpy库，用于数值计算
 import matplotlib.pyplot as plt  # 导入matplotlib库中的pyplot模块，用于绘图
 import matplotlib.font_manager as fm  # 导入matplotlib库中的font_manager模块，用于字体管理
+
+#代码实现了股票交易的功能，包括单个股票交易和多个股票交易。
+#其中，test_a_stock_trade函数用于测试单个股票的交易，multi_stock_trade函数用于测试多个股票的交易。
+
 font = fm.FontProperties(fname='font/wqy-microhei.ttc')  # 设置字体属性
 plt.rcParams['axes.unicode_minus'] = False  # 设置绘图时不显示负号
 def stock_trade(stock_file):
