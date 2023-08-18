@@ -59,48 +59,40 @@ class StockTradingEnv(gym.Env):
         ]) 
         return obs 
 
-    def _take_action(self, action): 
-        # 设置当前价格为时间步内的随机价格 
-        current_price = random.uniform( 
-            self.df.loc[self.current_step, "open"], self.df.loc[self.current_step, "close"]) 
-
-        action_type = action[0]  # 动作类型 
-        amount = action[1]  # 数量 
-
-        if action_type < 1: 
-            # 以余额的amount%购买股票 
-            total_possible = int(self.balance / current_price)  # 计算可能购买的最大股票数量
-shares_bought = int(total_possible * amount)  # 根据买入比例计算购买的股票数量
-prev_cost = self.cost_basis * self.shares_held  # 计算之前的平均成本
-additional_cost = shares_bought * current_price  # 计算买入股票的额外花费
-
-self.balance -= additional_cost  # 更新账户余额，减去买入股票的额外花费
-self.cost_basis = (prev_cost + additional_cost) / (self.shares_held + shares_bought)  # 更新平均成本
-self.shares_held += shares_bought  # 更新持有的股票数量
-
-
-        elif action_type < 2: 
-            # 卖出持有股票的amount% 
-            下面是对这段代码的逐行中文注释：
-
-```python
-shares_sold = int(self.shares_held * amount)  # 根据卖出比例计算要卖出的股票数量
-self.balance += shares_sold * current_price  # 更新账户余额，加上卖出股票的收入
-self.shares_held -= shares_sold  # 更新持有的股票数量，减去卖出的股票数量
-self.total_shares_sold += shares_sold  # 更新总共卖出的股票数量
-self.total_sales_value += shares_sold * current_price  # 更新总销售额
-
-self.net_worth = self.balance + self.shares_held * current_price  # 更新账户净值
-```
-
-这段代码的目的是根据卖出比例`amount`和当前价格`current_price`计算卖出的股票数量，并根据卖出股票的收入更新账户余额、持有的股票数量、总共卖出的股票数量和总销售额。最后，更新账户净值。
-
-        if self.net_worth > self.max_net_worth:  # 如果当前的账户净值大于最大净值
-    self.max_net_worth = self.net_worth  # 更新最大净值
-
-if self.shares_held == 0:  # 如果持有的股票数量为0
-    self.cost_basis = 0  # 清零平均成本
-
+    def _take_action(self, action):  
+        # 设置当前价格为时间步内的随机价格  
+        current_price = random.uniform(  
+            self.df.loc[self.current_step, "open"], self.df.loc[self.current_step, "close"])  
+      
+        action_type = action[0]  # 动作类型  
+        amount = action[1]  # 数量  
+      
+        if action_type < 1:  
+            # 以余额的amount%购买股票  
+            total_possible = int(self.balance / current_price)  # 计算可能购买的最大股票数量  
+            shares_bought = int(total_possible * amount)  # 根据买入比例计算购买的股票数量  
+            prev_cost = self.cost_basis * self.shares_held  # 计算之前的平均成本  
+            additional_cost = shares_bought * current_price  # 计算买入股票的额外花费  
+      
+            self.balance -= additional_cost  # 更新账户余额，减去买入股票的额外花费  
+            self.cost_basis = (prev_cost + additional_cost) / (self.shares_held + shares_bought)  # 更新平均成本  
+            self.shares_held += shares_bought  # 更新持有的股票数量  
+      
+        elif action_type < 2:  
+            # 卖出持有股票的amount%  
+            shares_sold = int(self.shares_held * amount)  # 根据卖出比例计算要卖出的股票数量  
+            self.balance += shares_sold * current_price  # 更新账户余额，加上卖出股票的收入  
+            self.shares_held -= shares_sold  # 更新持有的股票数量，减去卖出的股票数量  
+            self.total_shares_sold += shares_sold  # 更新总共卖出的股票数量  
+            self.total_sales_value += shares_sold * current_price  # 更新总销售额  
+      
+            self.net_worth = self.balance + self.shares_held * current_price  # 更新账户净值  
+      
+        if self.net_worth > self.max_net_worth:  # 如果当前的账户净值大于最大净值  
+            self.max_net_worth = self.net_worth  # 更新最大净值  
+      
+        if self.shares_held == 0:  # 如果持有的股票数量为0  
+            self.cost_basis = 0  # 清零平均成本
 
     def step(self, action):
         # 在环境中执行一个时间步
